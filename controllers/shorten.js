@@ -6,10 +6,11 @@ const randomString = require('randomstring')
 const shLink = async(req, res, next)=>{
     string1 = randomString.generate(7)
 
-    const {link} = req.body
+    const {link, host} = req.body
+    console.log(host)
     const originalLink = link.replaceAll('https://', '')
    
-    console.log(originalLink)
+ 
 
    const newLink = new Links({
     original: originalLink,
@@ -18,7 +19,7 @@ const shLink = async(req, res, next)=>{
 
    try{
      await newLink.save()
-    res.status(200).json({success: true, message: `http://localhost:8000/${string1}`})
+    res.status(200).json({success: true, message: `${host}/${string1}`})
    } catch(err){
     res.status(404).json({success: false, message: 'could not ceate link'})
     return next(err)
